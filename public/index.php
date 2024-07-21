@@ -8,15 +8,13 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 
-use Iliuminates\Application;
+/**
+ * Run The Framework
+ */
+(new \Iliuminates\Application)->start();
 
-
-$application = new Application;
-$application->start();
 
 
 
 // echo "<pre>";
 // var_dump($router->routes());
-
-

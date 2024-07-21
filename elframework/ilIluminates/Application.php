@@ -1,17 +1,20 @@
-<?php 
+<?php
 namespace Iliuminates;
 
-use App\Http\Controllers\HomeController;
-use Iliuminates\Router\Router;
+use Iliuminates\Router\Route;
 
-class Application 
+class Application
 {
-    public function start(){
-        $router  = new Router;
+    protected $router;
+    public function start()
+    {
+        $this->router  = new Route;
+        include route_path('web.php');
+        
+    }
 
-
-$router->add('GET','/',HomeController::class,'index');
-$router->add('GET','/about',HomeController::class,'about');
-        $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+    public function __destruct()
+    {
+        $this->router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
     }
 }

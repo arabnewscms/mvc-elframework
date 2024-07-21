@@ -13,5 +13,10 @@ class HomeController
         echo 'Welcome To About page';
     }
 
+    public function article($id)
+    {
+        echo 'Welcome To article page id = '.$id;
+    }
+
     
 }

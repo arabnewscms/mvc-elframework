@@ -7,7 +7,10 @@
         "psr-4": {
             "Elframework\\": "framework/",
             "Iliuminates\\": "ilIluminates/"
-        }
+        },
+        "files": [
+            "helpers/elframework_helpers.php"
+        ]
     },
     "authors": [
         {
