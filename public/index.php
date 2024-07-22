@@ -1,5 +1,7 @@
 <?php
 
+// Define ROOT Directory path
+define('ROOT_PATH', dirname(__FILE__));
 
 
 /**

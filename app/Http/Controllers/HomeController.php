@@ -5,7 +5,7 @@ class HomeController
 {
     public function index()
     {
-        echo 'Welcome To Index page';
+        return 'Welcome To Index page';
     }
 
     public function about()

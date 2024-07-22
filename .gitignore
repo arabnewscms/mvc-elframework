@@ -1,3 +1,4 @@
 /vendor/
 # Files
 composer.lock
+/storage/
