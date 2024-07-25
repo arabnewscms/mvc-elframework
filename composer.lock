@@ -12,14 +12,18 @@
             "dist": {
                 "type": "path",
                 "url": "elframework",
-                "reference": "49ceeb0c839f5908f01eedc2669b95558b647b4f"
+                "reference": "f87e0557182b7cbbc3d72c686d293fdf1e5fc53c"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Elframework\\": "framework/",
-                    "Iliuminates\\": "ilIluminates/"
-                }
+                    "Iliuminates\\": "ilIluminates/",
+                    "Contracts\\": "Contracts/"
+                },
+                "files": [
+                    "helpers/elframework_helpers.php"
+                ]
             },
             "license": [
                 "MIT"

@@ -1,11 +1,11 @@
 <?php
 use App\Http\Controllers\HomeController;
+use App\Http\Middleware\SimpleMiddleware;
 use Iliuminates\Router\Route;
-use Iliuminates\Sessions\Session;
+ 
 
 //Route::get('/', HomeController::class, 'index');
 Route::get('/', function() {
-    
     return 'index page';
 });
 

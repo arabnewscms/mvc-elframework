@@ -63,18 +63,60 @@ class Router
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
                 $controller = $val['controller'];
                 if (is_object($controller)) {
-                    echo $controller(...$params);
-                    return '';
+
+                    $val['middleware'] = $val['action'];
+
+                    $middlewareStack = $val['middleware'];
+
+                    // Prepare Data and add anonymous function to $next variable
+                    $next = function ($request) use ($controller, $params) {
+                        return  $controller(...$params);
+                    };
+                    
+                    // Proccessing Middleware if using Anonymous Functions 
+                    $next = self::handleMiddleware($middlewareStack,$next);    
+                    
+                    echo $next($uri);
+
                 } else {
                     $action = $val['action'];
-                    $middleware = $val['middleware'];
-                   
-                    echo call_user_func_array([new $controller, $action], $params);
-                    return '';
+                    $middlewareStack = $val['middleware'];
+                    
+                    // Prepare Data and add anonymous function to $next variable
+                    $next = function ($request) use ($controller, $action, $params) {
+                        return call_user_func_array([new $controller, $action], $params);
+                    };
+                    
+                    // Proccessing Middleware if using A Controller With Action 
+                    $next = self::handleMiddleware($middlewareStack,$next);    
+
+                    echo $next($uri);
                 }
+
+                return '';
             }
         }
 
         throw new \Exception(' this route ' . $uri . ' not found');
+    }
+
+
+
+    /**
+     * @param mixed $middlewareStack
+     * @param mixed $next
+     * 
+     * @return mixed
+     */
+    public static function handleMiddleware($middlewareStack, $next)
+    {
+        if(!empty($middlewareStack) && is_array($middlewareStack)){
+            foreach (array_reverse($middlewareStack) as $middleware) {
+                $next  = function ($request) use ($middleware, $next) {
+                    return (new $middleware)->handle($request, $next);
+                };
+            }
+        }
+        return $next;
     }
 }

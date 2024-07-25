@@ -6,7 +6,8 @@
     "autoload": {
         "psr-4": {
             "Elframework\\": "framework/",
-            "Iliuminates\\": "ilIluminates/"
+            "Iliuminates\\": "ilIluminates/",
+            "Contracts\\": "Contracts/"
         },
         "files": [
             "helpers/elframework_helpers.php"
