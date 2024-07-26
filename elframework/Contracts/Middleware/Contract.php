@@ -10,5 +10,5 @@ interface Contract
      *
      * @return mixed
      */
-    public function handle($request, $next,array $role = []);
+    public function handle($request, $next,...$role);
 }

@@ -11,10 +11,10 @@ class SimpleMiddleware implements Contract
      *
      * @return mixed
      */
-    public function handle($request, $next,$role = [])
+    public function handle($request, $next,...$role)
     {
         // echo "<pre>";
-        // var_dump($role);
+        // var_dump($role[0]);
         if($role[0] == 'user') {
             header('Location: '.url('about'));
             exit;

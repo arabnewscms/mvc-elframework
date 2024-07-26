@@ -19,8 +19,10 @@ class Middleware
                 $next  = function ($request) use ($middleware, $next) {
                     $role = explode(',', $middleware);
                     $middleware = array_shift($role);
-                    $middleware = self::getFromCore($middleware);
-                    return (new $middleware)->handle($request, $next, $role);
+                    if(!class_exists($middleware)){
+                        $middleware = self::getFromCore($middleware);
+                    }
+                    return (new $middleware)->handle($request, $next,...$role);
                 };
             }
         }
@@ -31,7 +33,7 @@ class Middleware
     {
         if ($type == 'web' && isset(Core::$middlewareWebRoute[$key])) {
             return Core::$middlewareWebRoute[$key];
-        } elseif ($type == 'api' && isset(Core::$middlewareWebRoute[$key])) {
+        } elseif ($type == 'api' && isset(Core::$middlewareApiRoute[$key])) {
             return Core::$middlewareApiRoute[$key];
         } else {
             throw new \Exception('This Middleware (' . $key . ') Not Found ');
