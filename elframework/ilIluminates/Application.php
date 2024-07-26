@@ -14,12 +14,19 @@ class Application
      * @return void
      */
     public function start()
-    { 
+    {
         $this->router  = new Route;
-        $this->webRoute();
+        
+        $uri = str_replace('/public/', '', $_SERVER['REQUEST_URI']);
+        if(explode('/', $uri)[0] == 'api') {
+            $this->apiRoute();
+        } else {
+            $this->webRoute();
+        }
+    
     }
 
-    /** 
+    /**
      * to dispatch many class
      * @return void
      */
@@ -32,22 +39,24 @@ class Application
     /**
      * @return void
      */
-    public function webRoute(){
+    public function webRoute()
+    {
        
-        foreach(Core::$globalWeb as $global){
+        foreach(Core::$globalWeb as $global) {
             new $global();
         }
         include route_path('web.php');
     }
 
     
-    public function apiRoute(){
-        foreach(Core::$globalApi as $global){
+    public function apiRoute()
+    {
+        foreach(Core::$globalApi as $global) {
             new $global();
         }
         include route_path('api.php');
     }
  
 
-    
+
 }

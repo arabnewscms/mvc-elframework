@@ -1,6 +1,9 @@
 <?php
 namespace Iliuminates\Router\Traits;
 
+use App\Http\Controllers\HomeController;
+use App\Http\Middleware\SimpleMiddleware;
+
 trait Methods
 {
 
