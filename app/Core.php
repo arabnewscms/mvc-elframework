@@ -14,6 +14,8 @@ class Core
 
     public static $middlewareApiRoute = []; 
 
-    public static $globalApi = [];
+    public static $globalApi = [
+        
+    ];
 
 }

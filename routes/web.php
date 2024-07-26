@@ -8,9 +8,12 @@ Route::get('/', function() {
     return 'index page';
 },['simple,admin']);
 
-Route::get('/about', HomeController::class, 'about');
+Route::group(['prefix'=>'site'],function(){
 
-//Route::get('article/{id}', HomeController::class, 'article');
-Route::get('article/{id}/{name}', function($id,$name){
-    return $id.$name;
+    Route::get('/about', HomeController::class, 'about');
+    
+    //Route::get('article/{id}', HomeController::class, 'article');
+    Route::get('/article/{id}/{name}', function($id,$name){
+        return $id.$name;
+    });
 });

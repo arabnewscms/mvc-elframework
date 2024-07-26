@@ -4,6 +4,7 @@ namespace Iliuminates;
 
 use Iliuminates\Router\Route;
 use App\Core;
+use Iliuminates\Router\Segment;
 
 class Application
 {
@@ -16,9 +17,8 @@ class Application
     public function start()
     {
         $this->router  = new Route;
-        
-        $uri = str_replace('/public/', '', $_SERVER['REQUEST_URI']);
-        if(explode('/', $uri)[0] == 'api') {
+
+        if(Segment::get(0) == 'api') {
             $this->apiRoute();
         } else {
             $this->webRoute();
