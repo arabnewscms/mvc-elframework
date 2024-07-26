@@ -1,6 +1,7 @@
 <?php
-
 namespace Iliuminates\Router;
+
+use Iliuminates\Middleware\Middleware;
 
 class Router
 {
@@ -65,16 +66,15 @@ class Router
                 if (is_object($controller)) {
 
                     $val['middleware'] = $val['action'];
-
                     $middlewareStack = $val['middleware'];
-
+                  
                     // Prepare Data and add anonymous function to $next variable
                     $next = function ($request) use ($controller, $params) {
                         return  $controller(...$params);
                     };
                     
                     // Proccessing Middleware if using Anonymous Functions 
-                    $next = self::handleMiddleware($middlewareStack,$next);    
+                    $next = Middleware::handleMiddleware($middlewareStack,$next);    
                     
                     echo $next($uri);
 
@@ -88,7 +88,7 @@ class Router
                     };
                     
                     // Proccessing Middleware if using A Controller With Action 
-                    $next = self::handleMiddleware($middlewareStack,$next);    
+                    $next = Middleware::handleMiddleware($middlewareStack,$next);    
 
                     echo $next($uri);
                 }
@@ -102,21 +102,5 @@ class Router
 
 
 
-    /**
-     * @param mixed $middlewareStack
-     * @param mixed $next
-     * 
-     * @return mixed
-     */
-    public static function handleMiddleware($middlewareStack, $next)
-    {
-        if(!empty($middlewareStack) && is_array($middlewareStack)){
-            foreach (array_reverse($middlewareStack) as $middleware) {
-                $next  = function ($request) use ($middleware, $next) {
-                    return (new $middleware)->handle($request, $next);
-                };
-            }
-        }
-        return $next;
-    }
+ 
 }

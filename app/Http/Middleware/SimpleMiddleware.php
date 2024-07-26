@@ -1,21 +1,21 @@
-<?php 
+<?php
 namespace App\Http\Middleware;
 
-use Contracts\MiddlewareContract;
+use Contracts\Middleware\Contract;
 
-class SimpleMiddleware implements MiddlewareContract
+class SimpleMiddleware implements Contract
 {
     /**
      * @param mixed $request
      * @param mixed $next
-     * 
+     *
      * @return mixed
      */
-    public function handle($request, $next)
+    public function handle($request, $next,$role = [])
     {
         // echo "<pre>";
-        // var_dump($next);
-        if(2 == 2){
+        // var_dump($role);
+        if($role[0] == 'user') {
             header('Location: '.url('about'));
             exit;
         }
