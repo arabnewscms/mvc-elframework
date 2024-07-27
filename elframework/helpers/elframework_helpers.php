@@ -2,7 +2,7 @@
 
 if(!function_exists('url')){
     function url(string $url = ''):string{
-        return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/public/'.ltrim($url, '/');
+        return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].ROOT_DIR.ltrim($url, '/');
     }
 }
 
@@ -12,6 +12,14 @@ if (!function_exists('base_path')) {
         return  ROOT_PATH. '/../' . $file;
     }
 }
+
+if (!function_exists('storage_path')) {
+    function storage_path(string $file = null)
+    {
+       return !is_null($file)? base_path('storage').'/'.$file:'';
+    }
+}
+
 
 if (!function_exists('route_path')) {
     function route_path(string $file = null)

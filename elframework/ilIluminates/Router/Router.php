@@ -2,24 +2,15 @@
 
 namespace Iliuminates\Router;
 
+use Iliuminates\Logs\Log;
 use Iliuminates\Middleware\Middleware;
 
 class Router
 {
     protected static $routes = [];
     protected static $groupAttributes = [];
-
-    private static $public;
-
-    /**
-     * @return string
-     */
-    public static function public_path($bind = 'public'): string
-    {
-        static::$public = $bind;
-        return static::$public;
-    }
-
+   
+ 
     /**
      * @param string $method
      * @param string $route
@@ -35,7 +26,7 @@ class Router
         $middleware = array_merge(static::getGroupMiddleware(), $middleware);
         self::$routes[] = [
             'method' => $method,
-            'uri' => ltrim($route, '/'),
+            'uri' => $route == '/'?$route:ltrim($route, '/'),
             'controller' => $controller,
             'action' => $action,
             'middleware' => $middleware
@@ -43,7 +34,13 @@ class Router
     
     }
 
-    public static function group($attributes, $callback)
+    /**
+     * @param mixed $attributes
+     * @param mixed $callback
+     * 
+     * @return void
+     */
+    public static function group($attributes, $callback):void
     {
         $previousGroupAttribute  = static::$groupAttributes;
         static::$groupAttributes = array_merge(static::$groupAttributes, $attributes);
@@ -51,7 +48,12 @@ class Router
         static::$groupAttributes = $previousGroupAttribute;
     }
 
-    protected static function applyGroupPrefix($route)
+    /**
+     * @param mixed $route
+     * 
+     * @return string
+     */
+    protected static function applyGroupPrefix($route):string
     {
         if (isset(static::$groupAttributes['prefix'])) {
             $full_route = rtrim(static::$groupAttributes['prefix'], '/') . '/' . ltrim($route, '/');
@@ -61,7 +63,10 @@ class Router
         }
     }
 
-    protected static function getGroupMiddleware()
+    /**
+     * @return array
+     */
+    protected static function getGroupMiddleware():array
     {
         return static::$groupAttributes['middleware'] ?? [];
     }
@@ -83,17 +88,12 @@ class Router
      */
     public static function dispatch($uri, $method)
     {
-
-        $uri = ltrim($uri, '/' . static::public_path() . '/');
+        $uri = ltrim($uri, ROOT_DIR);
         $uri = empty($uri)?'/':$uri;
-        //var_dump($uri);
-       // echo "<pre>";
-        //var_dump(static::$routes);
+        $method = strtoupper($method);
 
         foreach (static::$routes as $route) {
             if ($route['method'] == $method) {
-                
-
                 $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[a-zA-Z0-9_]+)', $route['uri']);
                 $pattern = "#^$pattern$#";
                 if (preg_match($pattern, $uri, $matches)) {
@@ -132,7 +132,6 @@ class Router
                 }
             }
         }
-
-        throw new \Exception(' this route ' . $uri . ' not found');
+        throw new Log("' this route ' . $uri . ' not found'");
     }
 }

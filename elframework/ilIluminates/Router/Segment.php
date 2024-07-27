@@ -5,7 +5,7 @@ class Segment
 {
 
     public static function uri(){
-        return  str_replace('/public/', '', $_SERVER['REQUEST_URI']);
+        return  str_replace(ROOT_DIR, '', $_SERVER['REQUEST_URI']);
     }
     /**
      * @param int $offset

@@ -2,6 +2,7 @@
 
 // Define ROOT Directory path
 define('ROOT_PATH', dirname(__FILE__));
+define('ROOT_DIR', '/public/');
 
 
 /**

@@ -3,6 +3,7 @@
 namespace Iliuminates\Middleware;
 
 use App\Core;
+use Iliuminates\Logs\Log;
 use Iliuminates\Router\Segment;
 
 class Middleware
@@ -38,7 +39,9 @@ class Middleware
         } elseif ($type == 'api' && isset(Core::$middlewareApiRoute[$key])) {
             return Core::$middlewareApiRoute[$key];
         } else {
-            throw new \Exception('This Middleware (' . $key . ') Not Found ');
+            throw new Log('This Middleware (' . $key . ') Not Found ');
+
+            
         }
     }
 }
