@@ -1,11 +1,14 @@
 <?php 
 namespace App\Http\Controllers;
 
+ 
 class HomeController 
 {
     public function index()
     {
-        return 'Welcome To Index page';
+        $title = 'title';
+        $content = 'content data';
+        return view('index', compact('title','content'));
     }
 
     public function about()

@@ -1,5 +1,11 @@
 <?php
 
+if(!function_exists('view')){
+    function view(string $view,null|array $data):mixed{
+        return \Iliuminates\Views\View::make($view,$data);
+    }
+}
+
 if(!function_exists('url')){
     function url(string $url = ''):string{
         return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].ROOT_DIR.ltrim($url, '/');
