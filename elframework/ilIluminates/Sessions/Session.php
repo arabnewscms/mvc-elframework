@@ -8,13 +8,16 @@ class Session
 
     public function __construct()
     {
-    
+        $handler = new SessionHandler(config('session.session_save_path'),
+        config('session.session_prefix'));
+        $handler->gc(config('session.expiration_timeout'));
+        
+        session_set_save_handler($handler,true);
         session_save_path(config('session.session_save_path'));
-        ini_set('session.gc_probability', 1);
+        session_name(config('session.session_prefix'));
         session_start([
             'cookie_lifetime' => config('session.expiration_timeout')
         ]);
-      
     }
     
     /**
