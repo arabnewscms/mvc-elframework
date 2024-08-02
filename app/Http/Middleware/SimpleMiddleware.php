@@ -2,6 +2,7 @@
 namespace App\Http\Middleware;
 
 use Contracts\Middleware\Contract;
+use Iliuminates\FrameworkSettings;
 
 class SimpleMiddleware implements Contract
 {
@@ -13,6 +14,9 @@ class SimpleMiddleware implements Contract
      */
     public function handle($request, $next,...$role)
     {
+
+        
+        
         // echo "<pre>";
         // var_dump($role[0]);
         if($role[0] == 'user') {

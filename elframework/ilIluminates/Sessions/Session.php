@@ -15,6 +15,7 @@ class Session
             'cookie_lifetime' => config('session.expiration_timeout')
         ]);
     }
+    
     /**
      * @param string $key
      * @param mixed|null $value

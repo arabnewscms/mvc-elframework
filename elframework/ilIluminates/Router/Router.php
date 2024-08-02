@@ -43,6 +43,7 @@ class Router
     public static function group($attributes, $callback):void
     {
         $previousGroupAttribute  = static::$groupAttributes;
+        //$attributes['prefix'] = parse_url($attributes['prefix'])['path'];
         static::$groupAttributes = array_merge(static::$groupAttributes, $attributes);
         call_user_func($callback, new self);
         static::$groupAttributes = $previousGroupAttribute;
@@ -91,7 +92,6 @@ class Router
         $uri = ltrim($uri, ROOT_DIR);
         $uri = empty($uri)?'/':$uri;
         $method = strtoupper($method);
-
         foreach (static::$routes as $route) {
             if ($route['method'] == $method) {
                 $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[a-zA-Z0-9_]+)', $route['uri']);
