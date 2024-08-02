@@ -14,6 +14,7 @@ class Session
         session_start([
             'cookie_lifetime' => config('session.expiration_timeout')
         ]);
+      
     }
     
     /**

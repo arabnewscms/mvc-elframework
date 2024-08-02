@@ -21,5 +21,10 @@ class HomeController
         echo 'Welcome To article page id = '.$id;
     }
 
+    public function api_any()
+    {
+        echo 'Welcome To api_any page ';
+    }
+
     
 }

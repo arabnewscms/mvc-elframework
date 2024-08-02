@@ -9,8 +9,8 @@ class Router
 {
     protected static $routes = [];
     protected static $groupAttributes = [];
-   
- 
+
+
     /**
      * @param string $method
      * @param string $route
@@ -26,12 +26,11 @@ class Router
         $middleware = array_merge(static::getGroupMiddleware(), $middleware);
         self::$routes[] = [
             'method' => $method,
-            'uri' => $route == '/'?$route:ltrim($route, '/'),
+            'uri' => $route == '/' ? $route : ltrim($route, '/'),
             'controller' => $controller,
             'action' => $action,
             'middleware' => $middleware
         ];
-    
     }
 
     /**
@@ -40,10 +39,9 @@ class Router
      * 
      * @return void
      */
-    public static function group($attributes, $callback):void
+    public static function group($attributes, $callback): void
     {
         $previousGroupAttribute  = static::$groupAttributes;
-        //$attributes['prefix'] = parse_url($attributes['prefix'])['path'];
         static::$groupAttributes = array_merge(static::$groupAttributes, $attributes);
         call_user_func($callback, new self);
         static::$groupAttributes = $previousGroupAttribute;
@@ -54,7 +52,7 @@ class Router
      * 
      * @return string
      */
-    protected static function applyGroupPrefix($route):string
+    protected static function applyGroupPrefix($route): string
     {
         if (isset(static::$groupAttributes['prefix'])) {
             $full_route = rtrim(static::$groupAttributes['prefix'], '/') . '/' . ltrim($route, '/');
@@ -67,7 +65,7 @@ class Router
     /**
      * @return array
      */
-    protected static function getGroupMiddleware():array
+    protected static function getGroupMiddleware(): array
     {
         return static::$groupAttributes['middleware'] ?? [];
     }
@@ -90,8 +88,10 @@ class Router
     public static function dispatch($uri, $method)
     {
         $uri = ltrim($uri, ROOT_DIR);
-        $uri = empty($uri)?'/':$uri;
+        $uri = empty($uri) ? '/' : $uri;
         $method = strtoupper($method);
+
+    
         foreach (static::$routes as $route) {
             if ($route['method'] == $method) {
                 $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[a-zA-Z0-9_]+)', $route['uri']);
@@ -100,18 +100,18 @@ class Router
                     $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
                     $controller = $route['controller'];
                     if (is_object($controller)) {
-
-                        $route['middleware'] = $route['action'];
-                        $middlewareStack = $route['middleware'];
+                       
+                        $middlewareStack = !empty($route['action']) && !empty($route['middleware']) ?
+                            array_merge($route['middleware'], $route['action']) :
+                            $route['middleware'];
 
                         // Prepare Data and add anonymous function to $next variable
                         $next = function ($request) use ($controller, $params) {
                             return  $controller(...$params);
                         };
-                         
+
                         // Proccessing Middleware if using Anonymous Functions
                         $next = Middleware::handleMiddleware($middlewareStack, $next);
-
                         echo $next($uri);
                     } else {
                         $action = $route['action'];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\SimpleMiddleware;
 use App\Http\Middleware\UsersMiddleware;
 use Iliuminates\FrameworkSettings;
@@ -10,10 +11,11 @@ Route::group(['prefix'=>'/api/','middleware'=>[SimpleMiddleware::class]],functio
 
     // api
     Route::get('/', function () {
-        FrameworkSettings::setLocale('en');
+        //FrameworkSettings::setLocale($_GET['lang']);
         return FrameworkSettings::getLocale();
     });
 
+    Route::get('any', HomeController::class, 'api_any', [UsersMiddleware::class]);
     // api/users
     Route::get('users', function () {
         return 'Welcome To users api Route';

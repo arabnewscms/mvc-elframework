@@ -21,8 +21,8 @@ class Application
         $this->framework_setting = new FrameworkSettings;
 
         $this->framework_setting::setTimeZone();
-
-        if (Segment::get(0) == 'api') {
+ 
+        if (parse_url(Segment::get(0))['path'] == 'api') {
             $this->apiRoute();
         } else {
             $this->webRoute();
@@ -35,7 +35,7 @@ class Application
      */
     public function __destruct()
     {
-        $this->router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+        $this->router->dispatch(parse_url($_SERVER['REQUEST_URI'])['path'], $_SERVER['REQUEST_METHOD']);
     }
 
 
