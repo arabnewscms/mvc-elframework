@@ -27,7 +27,7 @@ class FrameworkSettings
      * @return string
      */
     public static function getLocale(){
-        return Session::has('locale')?Session::get('locale'):config('app.locale');
+        return Session::has('locale') && !empty(Session::get('locale')) ?Session::get('locale'):config('app.locale');
     }
 
     
@@ -38,7 +38,9 @@ class FrameworkSettings
      * @return string
      */
     public static function setLocale(string $locale):string{
+    
         Session::make('locale', $locale);
+   
         return Session::get('locale');
     }
 

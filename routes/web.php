@@ -1,11 +1,15 @@
 <?php
 use App\Http\Controllers\HomeController;
+use Iliuminates\FrameworkSettings;
 use Iliuminates\Router\Route;
 use Iliuminates\Sessions\Session;
 
 //Route::get('/', HomeController::class, 'index');
-Route::get('/', function() {
-    return Session::get('locale');
+Route::get('/', function () {
+    //Session::make('users', 'my users');
+    //FrameworkSettings::setLocale('en');
+    return Session::forget_all();
+    return  view('index');
 });
 
 Route::group(['prefix'=>'site'], function () {

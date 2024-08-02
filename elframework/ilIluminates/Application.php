@@ -22,7 +22,7 @@ class Application
 
         $this->framework_setting::setTimeZone();
  
-        if (parse_url(Segment::get(0))['path'] == 'api') {
+        if (Segment::get(0) == 'api') {
             $this->apiRoute();
         } else {
             $this->webRoute();

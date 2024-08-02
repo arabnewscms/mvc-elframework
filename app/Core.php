@@ -5,7 +5,8 @@ namespace App;
 class Core 
 {
     public static $globalWeb = [
-        \Iliuminates\Sessions\Session::class
+        \Iliuminates\Sessions\Session::class,
+ 
     ];
 
     public static $middlewareWebRoute = [
@@ -15,7 +16,7 @@ class Core
     public static $middlewareApiRoute = []; 
 
     public static $globalApi = [
-        
+     
     ];
 
 }
