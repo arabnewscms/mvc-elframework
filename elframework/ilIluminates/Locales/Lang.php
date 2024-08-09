@@ -33,7 +33,7 @@ class Lang
     private static function loadPHPtranslation(array $key, string $locale): string|null
     {
         $path =  base_path('app/lang/' . $locale . '/' . $key[0] . '.php');
-        if (!file_exists($path)) {
+        if (file_exists($path)) {
             $lang = include $path;
             return  $lang[$key[1]] ?? null;
         }

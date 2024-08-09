@@ -8,7 +8,7 @@ use Iliuminates\Sessions\Session;
 //Route::get('/', HomeController::class, 'index');
 Route::get('/', function () {
     FrameworkSettings::setLocale('en');
-    return trans('channel'); 
+    return trans('main.edit'); 
     //return  view('index');
 });
 
