@@ -1,7 +1,7 @@
 <?php
 return [
  'name'=>'الفريم وورك',
- 'welcome'=>'اهلا بك يا :name',
+ 'welcome'=>'اهلا بك يا :name :age',
  'channel'=>'بي اتش بي انونيموس',
  'post'=>'المنشورات',
  'add'=>'اضافة',
