@@ -11,8 +11,6 @@
          <div class="row">
             <div class="12">
             <h1>Elframework Index Page</h1>
-
-     
             </div>
          </div>
     </div>
