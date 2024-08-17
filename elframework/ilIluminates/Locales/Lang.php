@@ -18,8 +18,9 @@ class Lang
         if (file_exists($path)) {
             $json = file_get_contents($path);
             $lang = json_decode($json, true);
-            return isset($lang[$key]) ? self::attribute($lang[$key], $attributes) : null;
         }
+        return isset($lang[$key]) ? self::attribute($lang[$key], $attributes) : null;
+        
     }
 
     /**
@@ -33,8 +34,8 @@ class Lang
         $path =  base_path('app/lang/' . $locale . '/' . $key[0] . '.php');
         if (file_exists($path)) {
             $lang = include $path;
-            return  isset($lang[$key[1]]) ? self::attribute($lang[$key[1]], $attributes) : null;
         }
+        return  isset($lang[$key[1]]) ? self::attribute($lang[$key[1]], $attributes) : null;
     }
 
     /**

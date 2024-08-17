@@ -1,14 +1,25 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
 
- 
-class HomeController 
+use Iliuminates\Http\Validations\Validation;
+
+class HomeController extends Controller
 {
     public function index()
     {
-        $title = 'title';
-        $content = 'content data';
-        return view('index', compact('title','content'));
+
+        
+        $validation = Validation::make([
+             'user_id'=>$_GET['user_id']??'',
+        ], [
+             'user_id'=>['required','integer','exists:users,id'],
+        ], [
+             'user_id'=>trans('main.user_id'),
+        ]);
+        return $validation;
+        // $title = 'title';
+        // $content = 'content data';
+        // return view('index', compact('title','content'));
     }
 
     public function about()
@@ -26,5 +37,5 @@ class HomeController
         echo 'Welcome To api_any page ';
     }
 
-    
+
 }
