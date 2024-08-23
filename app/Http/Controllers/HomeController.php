@@ -1,12 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
- 
+use Iliuminates\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        var_dump(request('name','mohamed'));
+        exit;
         $validation = $this->validate([
              'user_id'=>$_GET['user_id']??'',
         ], [
@@ -19,6 +21,20 @@ class HomeController extends Controller
         // $title = 'title';
         // $content = 'content data';
         // return view('index', compact('title','content'));
+    }
+
+    public function data(){
+        return view('data'); 
+    }
+
+    public function data_post(){
+         
+        $file = request()->file('file');
+        $file->name(time());
+        return $file->store('my/images');
+
+        //return Request::file('file')->store('data');
+        //return Request::file('file');
     }
 
     public function about()

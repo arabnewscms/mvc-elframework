@@ -1,6 +1,16 @@
 <?php
 
  
+if(!function_exists('request')){
+    function request(string $name = null,mixed $default= null){
+        if(empty($name)){
+            return \Iliuminates\Http\Request::all();
+        }else{
+            return \Iliuminates\Http\Request::get($name,$default);
+        }
+       
+    }
+}
 
 if(!function_exists('trans')){
     function trans(string $trans = null,array|null $attriubtes = []):string|object{
