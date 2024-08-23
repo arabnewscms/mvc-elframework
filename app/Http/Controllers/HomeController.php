@@ -1,22 +1,21 @@
 <?php
 namespace App\Http\Controllers;
 
-use Iliuminates\Http\Validations\Validation;
+ 
 
 class HomeController extends Controller
 {
     public function index()
     {
-
-        
-        $validation = Validation::make([
+        $validation = $this->validate([
              'user_id'=>$_GET['user_id']??'',
         ], [
-             'user_id'=>['required','integer','exists:users,id'],
+             'user_id'=>['required','integer'],
         ], [
              'user_id'=>trans('main.user_id'),
         ]);
-        return $validation;
+        echo "<pre>";
+        return var_dump($validation->failed());
         // $title = 'title';
         // $content = 'content data';
         // return view('index', compact('title','content'));

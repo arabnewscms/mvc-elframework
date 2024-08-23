@@ -16,7 +16,7 @@ class Validation
     /**
      * @param mixed $key
      * @param mixed $requests
-     * 
+     *
      * @return mixed
      */
     public static function request($key, $requests): mixed
@@ -33,9 +33,10 @@ class Validation
 
             foreach (array_values(self::rule($rule_value)) as $rule) {
                 $method = self::getMethodName($rule);
+                
                 if (!method_exists(new self, $method)) {
                     throw new Log('There is not validation called ' . $method);
-                } else if (preg_match('/^in:/i', $rule) || preg_match('/^unique:/i', $rule) || preg_match('/^exists:/i', $rule)) {
+                } elseif (preg_match('/^in:|^unique:|^exists:/i', $rule)) {
                     if (self::$method($rule, $value)) {
                         if (preg_match('/^in:/i', $rule)) {
                             $attribut_in = explode(':', $rule);
@@ -45,17 +46,8 @@ class Validation
                         }
                         self::add_error($rule_key, $method, $attribute);
                     }
-                }
-                //  else if (preg_match('/^unique:/i', $rule)) {
-                //     if (self::$method($rule, $value)) {
-                //         self::add_error($rule_key, $method, $attribute );
-                //     }
-                // } else if (preg_match('/^exists:/i', $rule)) {
-                //     if (self::$method($rule, $value)) {
-                //         self::add_error($rule_key, $method, $attribute );
-                //     }
-                // }
-                elseif (preg_match('/\./i', $rule_key)) {
+
+                } elseif (preg_match('/\./i', $rule_key)) {
                     self::validate_sub_value($rule_key, $requests, $attribute, $rule);
                 } elseif (self::$method($value)) {
                     self::add_error($rule_key, $rule, $attribute);
@@ -64,14 +56,30 @@ class Validation
                 }
             }
         }
-        echo "<pre>";
-        // var_dump(static::$validated);
-        var_dump(static::$errors);
+        return new self;
+    }
+
+    /**
+     * returend validated values
+     * @return array
+     */
+    public static function validated()
+    {
+        return static::$validated;
+    }
+
+    /**
+     * to return errors as array
+     * @return array
+     */
+    public static function failed()
+    {
+        return static::$errors;
     }
 
     /**
      * @param mixed $rule
-     * 
+     *
      * @return string
      */
     protected static function getMethodName($rule): string
@@ -92,7 +100,7 @@ class Validation
      * @param mixed $requests
      * @param mixed $attribute
      * @param mixed $rule
-     * 
+     *
      * @return void
      */
     protected static function validate_sub_value($rule_key, $requests, $attribute, $rule)
@@ -120,7 +128,7 @@ class Validation
      * @param mixed $key
      * @param mixed $rule
      * @param mixed $attribute
-     * 
+     *
      * @return void
      */
     private static function add_error($key, $rule, $attribute): void
