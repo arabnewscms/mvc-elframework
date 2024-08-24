@@ -12,7 +12,8 @@
             <div class="12">
             <h1>Data Page</h1>
             <form method="post" action="<?php echo url('send/data'); ?>" enctype="multipart/form-data" >
-                <input type="file" name="file" class="form-control" />
+                <input type="text" name="name" value="test" class="form-control" />
+                <?php echo csrf_field(); ?>
                 <button type="submit" class="btn btn-success">Send</button>
             </form>
             </div>

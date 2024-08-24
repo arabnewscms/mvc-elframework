@@ -12,11 +12,13 @@ class Session
     }
     
     public static function start(){
-        $handler = new SessionHandler(config('session.session_save_path'),config('session.session_prefix'));
-        $handler->gc(config('session.expiration_timeout'));
-        session_set_save_handler($handler,true);
-        session_name(config('session.session_prefix'));
-        session_start();
+        if(session_status() === PHP_SESSION_NONE){
+            $handler = new SessionHandler(config('session.session_save_path'),config('session.session_prefix'));
+            $handler->gc(config('session.expiration_timeout'));
+            session_set_save_handler($handler,true);
+            session_name(config('session.session_prefix'));
+            session_start();
+        }
     }
     /**
      * @param string $key
@@ -40,6 +42,7 @@ class Session
      */
     public static function get(string $key): mixed
     {
+        static::start();
         return isset($_SESSION[$key]) ? Hash::decrypt($_SESSION[$key]) : $key;
     }
 
@@ -51,7 +54,7 @@ class Session
      */
     public static function has(string $key): mixed
     {
-     
+        static::start();
         return isset($_SESSION[$key]);
     }
 
@@ -64,7 +67,7 @@ class Session
      */
     public static function flash(string $key, mixed $value = null): mixed
     {
-        
+        static::start();
         if (!is_null($value)) {
             $_SESSION[$key] = $value;
         }

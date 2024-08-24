@@ -14,26 +14,20 @@ class Request
      * 
      * @return string
      */
-    public static function get(string $name, mixed $default = null):string
+    public static function get(string $name, mixed $default = null): string
     {
-        if (isset($_REQUEST[$name]) && !empty($_REQUEST[$name])) {
-            return $_REQUEST[$name];
-        } else {
-            return $default;
-        }
+        return isset($_REQUEST[$name]) && !empty($_REQUEST[$name]) ? $_REQUEST[$name] : $default ?? '';
     }
 
     public static function all()
     {
-
-        return count($_REQUEST) > 0?$_REQUEST:new self;
+        return count($_REQUEST) > 0 ? $_REQUEST : new self;
     }
 
-    public static function file(string $name):object
+    public static function file(string $name): object
     {
         if (isset($_FILES[$name])) {
             static::$file = $_FILES[$name];
-
             $file_info = explode('.', $_FILES[$name]['name']);
             static::$name = $file_info[0];
             static::$ext = end($file_info);
@@ -44,7 +38,7 @@ class Request
     /**
      * @return string
      */
-    public static function ext():string
+    public static function ext(): string
     {
         return static::$ext;
     }
@@ -52,12 +46,9 @@ class Request
     /**
      * @return string
      */
-    public static function name(string $name = null):string
+    public static function name(string $name = null): string
     {
-        if(!empty($name)){
-            static::$name = $name;
-        }
-        return static::$name;
+        return !empty($name) ? static::$name = $name : static::$name;
     }
 
     /**
@@ -76,7 +67,7 @@ class Request
             }
             $file = $path . '/' . static::$name . '.' . static::$ext;
             move_uploaded_file($from['tmp_name'], $file);
-            return ltrim($to_path. '/' . static::$name . '.' . static::$ext,'/');
+            return ltrim($to_path . '/' . static::$name . '.' . static::$ext, '/');
         }
         return false;
     }

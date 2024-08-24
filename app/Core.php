@@ -1,22 +1,21 @@
-<?php 
-namespace App;
- 
+<?php
 
-class Core 
+namespace App;
+
+
+class Core
 {
     public static $globalWeb = [
         \Iliuminates\Sessions\Session::class,
- 
+        \Iliuminates\Middleware\CSRFToken::class,
+
     ];
 
     public static $middlewareWebRoute = [
-        'simple'=> \App\Http\Middleware\SimpleMiddleware::class,
+        'simple' => \App\Http\Middleware\SimpleMiddleware::class,
     ];
 
-    public static $middlewareApiRoute = []; 
+    public static $middlewareApiRoute = [];
 
-    public static $globalApi = [
-     
-    ];
-
+    public static $globalApi = [];
 }

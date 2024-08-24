@@ -4,7 +4,9 @@ namespace Iliuminates;
 
 use Iliuminates\Router\Route;
 use App\Core;
+use Iliuminates\Middleware\CSRFToken;
 use Iliuminates\Router\Segment;
+use Iliuminates\Sessions\Session;
 
 class Application
 {
@@ -21,7 +23,7 @@ class Application
         $this->framework_setting = new FrameworkSettings;
 
         $this->framework_setting::setTimeZone();
- 
+
         if (Segment::get(0) == 'api') {
             $this->apiRoute();
         } else {
@@ -44,14 +46,24 @@ class Application
      */
     public function webRoute()
     {
+
+
         foreach (Core::$globalWeb as $global) {
             new $global();
         }
 
+        $this->createCSRF();
         $this->framework_setting::setLocale(config('app.locale'));
         include route_path('web.php');
     }
 
+    public function createCSRF()
+    {
+        if (!Session::has('csrf_token')) {
+            $csrf = CSRFToken::generateCSRFToken();
+            Session::make('csrf_token', $csrf);
+        }
+    }
 
     public function apiRoute()
     {
