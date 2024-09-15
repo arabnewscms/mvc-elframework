@@ -2,29 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Iliuminates\Database\Model;
 use Iliuminates\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // $random = random_bytes(4);
-        // $bin = bin2hex($random);
-        // echo $bin;
-        exit;
-        $validation = $this->validate([
-            'user_id' => $_GET['user_id'] ?? '',
-        ], [
-            'user_id' => ['required', 'integer'],
-        ], [
-            'user_id' => trans('main.user_id'),
-        ]);
-        echo "<pre>";
-        return var_dump($validation->failed());
-        // $title = 'title';
-        // $content = 'content data';
-        // return view('index', compact('title','content'));
+        $user = new User();
+        return $user->find(1);
     }
+
+
+
 
     public function data()
     {

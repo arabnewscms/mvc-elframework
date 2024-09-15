@@ -10,7 +10,6 @@ class Log extends \Exception
         $this->displayError();
         $this->log_file = $log_file;
         $this->logError();
-
     }
 
     public function logError(){
