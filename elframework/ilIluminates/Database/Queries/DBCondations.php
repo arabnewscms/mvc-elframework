@@ -13,17 +13,18 @@ trait DBCondations
      * @param string $column
      * @param string $operator
      * @param mixed $value
-     * 
-     * @return self
+     *
+     * @return static
      */
-    public static function where(string $column, string $operator, $value): self
+    public static function where(string $column, string $operator, $value=null): static
     {
-        self::$condations[] = [
+        $my_operators = in_array($operator, ['=', 'LIKE']);
+        static::$condations[] = [
             'column' => $column,
-            'operator' => $operator,
-            'value' => $value
+            'operator' =>  $my_operators ? $operator : '=',
+            'value' => ! $my_operators ? $operator : $value
         ];
-        return new self;
+        return new static;
     }
 
     /**
@@ -32,12 +33,12 @@ trait DBCondations
      */
     public static function buildSelectQuery(): string
     {
-        $class = new self;
+        $table = static::getTable();
         $columns = implode(',', static::$columns);
-        $query = 'SELECT ' . $columns . ' FROM ' . $class->table;
+        $query = 'SELECT ' . $columns . ' FROM ' . $table;
         if (static::$condations) {
             $condations = array_map(fn($condation) => "{$condation['column']} {$condation['operator']} ?", static::$condations);
-            $query .= 'WHERE ' . implode(' AND ', $condations);
+            $query .= ' WHERE ' . implode(' AND ', $condations);
         }
         return $query;
     }

@@ -5,11 +5,11 @@ use Iliuminates\Database\Drivers\MySQLConnection;
 use Iliuminates\Database\Drivers\SQLiteConnection;
 use Iliuminates\Logs\Log;
 use Iliuminates\Database\Queries\DBCondations;
-use Iliuminates\Database\Queries\Selector;
+use Iliuminates\Database\Queries\DBSelector;
 
 class Model extends BaseModel
 {
-    use DBCondations,Selector;
+    use DBCondations,DBSelector;
     public function __construct()
     {
         $config = config('database.driver');
@@ -20,9 +20,20 @@ class Model extends BaseModel
         } else {
             throw new Log('Database driver not supported');
         }
-
-        
-
     }
+
+    public static function getTable()
+    {
+        $class = new static;
+        if ($class->table == null) {
+            $class->table = strtolower((new \ReflectionClass(static::class))->getShortName()) . 's';
+        }
+        return $class->table;
+    }
+
+    public function toArray(){
+        return (array) static::$attributes;
+    }
+ 
 
 }

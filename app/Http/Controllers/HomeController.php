@@ -10,11 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = new User();
-        return $user->find(1);
+        $user = User::find(1);
+        return $user->email;
     }
-
-
 
 
     public function data()
