@@ -2,6 +2,8 @@
 
 namespace Iliuminates\Database\Queries;
 
+use Iliuminates\Database\Queries\Collection;
+
 trait DBSelector
 {
 
@@ -22,5 +24,23 @@ trait DBSelector
             return new static;
         }
         return null;
+    }
+
+    public static function get(null|array $columns = []): ?Collection
+    {
+        $query = static::buildSelectQuery();
+        $prepare = parent::$db->prepare($query);
+        $prepare->execute(static::getCondationValues());
+        $data = $prepare->fetchAll(static::getDBconf()->FETCH_MODE);
+        if ($data) {
+            return new Collection($data);
+        }
+
+        return null;
+    }
+
+    public static function all(): null|array
+    {
+        return static::get();
     }
 }
