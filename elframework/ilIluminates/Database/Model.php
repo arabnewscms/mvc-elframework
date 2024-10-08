@@ -1,4 +1,5 @@
 <?php
+
 namespace Iliuminates\Database;
 
 use Iliuminates\Database\Drivers\MySQLConnection;
@@ -9,7 +10,7 @@ use Iliuminates\Database\Queries\DBSelector;
 
 class Model extends BaseModel
 {
-    use DBCondations,DBSelector;
+    use DBCondations, DBSelector;
     public function __construct()
     {
         $config = config('database.driver');
@@ -31,9 +32,8 @@ class Model extends BaseModel
         return $class->table;
     }
 
-    public function toArray(){
+    public function toArray()
+    {
         return (array) static::$attributes;
     }
- 
-
 }

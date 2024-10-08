@@ -10,10 +10,23 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $users = User::get()->toArray();
-        foreach($users as $user){
-            echo $user['email']."<br>";
-        }
+        $paginate = User::paginate(1);
+         foreach($paginate as $data){
+            echo $data->name."<br>";
+         } 
+
+         echo "getTotal: ".$paginate->getTotal()."<br>";
+         echo "getPerPage: ".$paginate->getPerPage()."<br>";
+         echo "getCurrentPage: ". $paginate->getCurrentPage()."<br>";
+         echo "<br> hasNextPage:";
+         echo $paginate->hasNextPage()?"yes":"no";
+         echo "<br> hasPreviousPage:";
+         echo  $paginate->hasPreviousPage()?"yes":"no";
+        // exit;n User::where('name','LIKE','%p%')->count();
+        // $users = User::take(3)->get()->toArray();
+        // foreach ($users as $user) {
+        //     echo $user['email']."<br>";
+        // }
     }
 
 
